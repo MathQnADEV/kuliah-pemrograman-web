@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    font-family: "Poppins";
+    background: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    color: #060922;
+}
+
+.slider {
+    overflow: hidden;
+    position: relative;
+    height: 650px; /* Adjust as per your card height */
+}
+
+.slider .content {
+    width: 100%;
+}
+
+.slide-up .content {
+    animation: slide-up 25s infinite linear;
+}
+  
+.slide-down .content {
+    animation: slide-down 25s infinite linear;
+}
+  
+@keyframes slide-up {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-100%);
+    }
+}
+  
+@keyframes slide-down {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+}
+  
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+  
