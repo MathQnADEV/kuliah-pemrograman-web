@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./output.css" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    </head>
+    <body>
+        <nav class="relative w-full flex items-center justify-center px-[75px]">
+            <div class="fixed top-0 flex items-center justify-between w-full max-w-[1130px] rounded-3xl p-4 bg-white mt-[30px] z-30">
+                <a href="/" class="flex shrink-0 w-[150px]">
+                    <img src="assets/images/logos/logo-black.png" alt="logo">
+                </a>
+                <ul class="flex items-center gap-[30px]">
+                    <li class="group">
+                        <a href="/" class="hover:font-bold group-[.active]:font-bold transition-all duration-300">Home</a>
+                    </li>
+                    <li class="group">
+                        <a href="/category" class="hover:font-bold group-[.active]:font-bold transition-all duration-300">Browse</a>
+                    </li>
+                    <li class="group">
+                        <a href="#" class="hover:font-bold group-[.active]:font-bold transition-all duration-300">Rewards</a>
+                    </li>
+                    <li class="group">
+                        <a href="#" class="hover:font-bold group-[.active]:font-bold transition-all duration-300">Stories</a>
+                    </li>
+                </ul>
+                <div class="flex items-center gap-3">
+                    <a href="/signin" class="group rounded-full border border-tedja-black py-[14px] px-5 hover:bg-tedja-black flex items-center transition-all duration-300">
+                        <span class="font-semibold group-hover:text-white transition-all duration-300">Sign In</span>
+                    </a>
+                    <a href="/signup" class="group rounded-full border py-[14px] px-5 flex items-center bg-tedja-green">
+                        <span class="font-semibold">Sign Up</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="mt-[164px] flex flex-col gap-5 text-center items-center">
+            <p class="flex items-center gap-[6px] rounded-full py-[6px] px-3 bg-white border border-tedja-border">
+                <img src="assets/images/icons/crown.svg" class="flex shrink-0 size-5" alt="icon">
+                <span class="font-semibold text-sm">Top Well-Seller Property in Makassar</span>
+            </p>
+            <h1 class="font-bold text-4xl leading-[54px]">Ayana Type Oleander</h1>
+            <div class="flex items-center justify-center gap-5">
+                <div class="flex items-center gap-[6px]">
+                    <img src="assets/images/icons/location.svg" class="size-6 flex shrink-0" alt="icon">
+                    <p class="font-semibold">Makassar</p>
+                </div>
+                <div class="flex items-center gap-[6px]">
+                    <img src="assets/images/icons/security-user.svg" class="size-6 flex shrink-0" alt="icon">
+                    <p class="font-semibold">Certified Developer</p>
+                </div>
+            </div>
+        </div>
+        <section id="Gallery" class="flex gap-5 w-full max-w-[1280px] h-[450px] px-[75px] mt-[50px] mx-auto">
+            <button class="show-modal-btn relative group flex w-full h-[450px] rounded-[30px] overflow-hidden">
+                <img src="assets/images/thumbnails/thumbnails-5.png" class="w-full h-full object-cover" alt="house thumbnail">
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <img src="assets/images/icons/eye-white-fill.svg" class="size-[50px]" alt="icon">
+                </div>
+            </button>
+            <div class="grid grid-cols-2 gap-5 w-[450px] shrink-0">
+                <button class="show-modal-btn relative group flex size-[215px] shrink-0 rounded-[22px] overflow-hidden">
+                    <img src="assets/images/thumbnails/thumbnails-5.png" class="w-full h-full object-cover" alt="house details">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <img src="assets/images/icons/eye-white-fill.svg" class="size-[50px]" alt="icon">
+                    </div>
+                </button>
+            </div>
+        </section>
+        <section id="specs" class="w-full max-w-[1280px] px-[75px] mt-[30px] mx-auto">
+            <div class="flex items-center justify-between rounded-[20px] border border-tedja-border py-5 px-[30px] bg-white">
+                <div class="flex flex-col w-fit gap-3">
+                    <p class="text-sm text-tedja-secondary">Bedroom</p>
+                    <div class="flex items-center gap-[6px]">
+                        <img src="assets/images/icons/slider-vertical.svg" class="size-6 flex shrink-0" alt="icon">
+                        <p class="font-semibold">3 Bedroom</p>
+                    </div>
+                </div>
+                <div class="h-[60px] border border-tedja-border"></div>
+                <div class="flex flex-col w-fit gap-3">
+                    <p class="text-sm text-tedja-secondary">Bathroom</p>
+                    <div class="flex items-center gap-[6px]">
+                        <img src="assets/images/icons/slider-vertical.svg" class="size-6 flex shrink-0" alt="icon">
+                        <p class="font-semibold">1 Bathroom</p>
+                    </div>
+                </div>
+                <div class="h-[60px] border border-tedja-border"></div>
+                <div class="flex flex-col w-fit gap-3">
+                    <p class="text-sm text-tedja-secondary">Certificate</p>
+                    <div class="flex items-center gap-[6px]">
+                        <img src="assets/images/icons/note-favorite.svg" class="size-6 flex shrink-0" alt="icon">
+                        <p class="font-semibold">SHGB</p>
+                    </div>
+                </div>
+                <div class="h-[60px] border border-tedja-border"></div>
+                <div class="flex flex-col w-fit gap-3">
+                    <p class="text-sm text-tedja-secondary">Land of Area</p>
+                    <div class="flex items-center gap-[6px]">
+                        <img src="assets/images/icons/maximize-3.svg" class="size-6 flex shrink-0" alt="icon">
+                        <p class="font-semibold">84 M²</p>
+                    </div>
+                </div>
+                <div class="h-[60px] border border-tedja-border"></div>
+                <div class="flex flex-col w-fit gap-3">
+                    <p class="text-sm text-tedja-secondary">Land of Building</p>
+                    <div class="flex items-center gap-[6px]">
+                        <img src="assets/images/icons/building-3.svg" class="size-6 flex shrink-0" alt="icon">
+                        <p class="font-semibold">75 M²</p>
+                    </div>
+                </div>
+                <div class="h-[60px] border border-tedja-border"></div>
+                <div class="flex flex-col w-fit gap-3">
+                    <p class="text-sm text-tedja-secondary">Electric Power</p>
+                    <div class="flex items-center gap-[6px]">
+                        <img src="assets/images/icons/flash.svg" class="size-6 flex shrink-0" alt="icon">
+                        <p class="font-semibold">- Watt</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="Details" class="w-full flex gap-[70px] max-w-[1280px] px-[75px] my-[50px] mx-auto">
+            <div class="flex flex-col gap-[30px]">
+                <div id="About" class="flex flex-col gap-[14px]">
+                    <h2 class="font-semibold text-[22px] leading-[33px]">About</h2>
+                    <p class="leading-8">Hadiah Kanopi,
+						Subsidi Biaya Kpr 25 jt*,
+						Hadiah AC*,
+						Tandon Air & Mesin Air.
+					</p>
+                </div>
+                <div id="Nerby-Facilities" class="flex flex-col gap-[14px]">
+                    <h2 class="font-semibold text-[22px] leading-[33px]">Nearby Facilities</h2>
+                    <div class="grid grid-cols-4 gap-5">
+                        <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
+                            <img src="assets/images/icons/hospital-red.svg" class="size-8 flex shrink-0" alt="icon">
+                            <p class="font-semibold">Public Hospital</p>
+                        </div>
+                        <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
+                            <img src="assets/images/icons/shop-orange.svg" class="size-8 flex shrink-0" alt="icon">
+                            <p class="font-semibold">All Best Restaurants</p>
+                        </div>
+                        <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
+                            <img src="assets/images/icons/security-user-purple.svg" class="size-8 flex shrink-0" alt="icon">
+                            <p class="font-semibold">Professional Securities</p>
+                        </div>
+                        <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
+                            <img src="assets/images/icons/shopping-bag-green.svg" class="size-8 flex shrink-0" alt="icon">
+                            <p class="font-semibold">Shopping Mall</p>
+                        </div>
+                        <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
+                            <img src="assets/images/icons/cards-green.svg" class="size-8 flex shrink-0" alt="icon">
+                            <p class="font-semibold">Financial Center</p>
+                        </div>
+                        <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
+                            <img src="assets/images/icons/buildings-blue.svg" class="size-8 flex shrink-0" alt="icon">
+                            <p class="font-semibold">Central Business</p>
+                        </div>
+                        <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
+                            <img src="assets/images/icons/book-cyan.svg" class="size-8 flex shrink-0" alt="icon">
+                            <p class="font-semibold">International Schools</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="Location" class="flex flex-col gap-[14px]">
+                    <h2 class="font-semibold text-[22px] leading-[33px]">Strategic Location</h2>
+                    <div class="overflow-hidden w-full h-[320px]">
+                        <div id="my-map-display" class="h-full w-full max-w-[none] bg-none">
+                            <iframe class="h-full w-full border-0" frameborder="0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127164.68765497561!2d119.34441769726561!3d-5.120378999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbefd8a3bc6fc21%3A0x322c74479421ee3!2sCluster%20Ayana!5e0!3m2!1sid!2sid!4v1759955128052!5m2!1sid!2sid"></iframe>
+                        </div>
+                        <a class="from-embedmap-code" href="https://www.bootstrapskins.com/themes" id="enable-map-data">premium bootstrap themes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col w-[400px] shrink-0 h-fit rounded-[30px] border border-tedja-border p-5 gap-5 bg-white">
+                <p class="font-bold text-[38px] leading-[57px] text-center text-tedja-blue">Rp 1.214.000.000</p>
+                <hr class="border-x-tedja-border">
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-[6px]">
+                        <img src="assets/images/icons/tick-circle.svg" class="size-6 flex shrink-0" alt="icon">
+                        <p class="font-semibold">Dibangun developer handal</p>
+                    </div>
+                    <div class="flex items-center gap-[6px]">
+                        <img src="assets/images/icons/tick-circle.svg" class="size-6 flex shrink-0" alt="icon">
+                        <p class="font-semibold">Jaminan uang kembali 100%</p>
+                    </div>
+                    <div class="flex items-center gap-[6px]">
+                        <img src="assets/images/icons/tick-circle.svg" class="size-6 flex shrink-0" alt="icon">
+                        <p class="font-semibold">Gratis biaya balik nama</p>
+                    </div>
+                </div>
+                <hr class="border-x-tedja-border">
+                <p class="font-semibold">Available Payment</p>
+                <div class="group flex items-center justify-between rounded-[20px] ring-1 ring-tedja-border p-4 bg-white hover:ring-2 hover:ring-tedja-blue transition-all duration-300">
+                    <div class="flex items-center gap-[14px]">
+                        <div class="flex items-center w-[71px] h-[50px] shrink-0 overflow-hidden">
+                            <img src="assets/images/logos/bca.svg" class="w-full h-full object-contain" alt="bank logo">
+                        </div>
+                        <div>
+                            <p class="font-semibold">BCA Prioritas</p>
+                            <p class="text-sm text-tedja-secondary mt-0.5">Interest 5%</p>
+                        </div>
+                    </div>
+                    <a href="/signup" class="rounded-full py-[6px] px-3 bg-tedja-green font-semibold text-sm opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        Calculate
+                    </a>
+                </div>
+                <div class="group flex items-center justify-between rounded-[20px] ring-1 ring-tedja-border p-4 bg-white hover:ring-2 hover:ring-tedja-blue transition-all duration-300">
+                    <div class="flex items-center gap-[14px]">
+                        <div class="flex items-center w-[71px] h-[50px] shrink-0 overflow-hidden">
+                            <img src="assets/images/logos/mandiri.svg" class="w-full h-full object-contain" alt="bank logo">
+                        </div>
+                        <div>
+                            <p class="font-semibold">Mandiri KPR</p>
+                            <p class="text-sm text-tedja-secondary mt-0.5">Interest 14%</p>
+                        </div>
+                    </div>
+                    <a href="/signup" class="rounded-full py-[6px] px-3 bg-tedja-green font-semibold text-sm opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        Calculate
+                    </a>
+                </div>
+                <div class="group flex items-center justify-between rounded-[20px] ring-1 ring-tedja-border p-4 bg-white hover:ring-2 hover:ring-tedja-blue transition-all duration-300">
+                    <div class="flex items-center gap-[14px]">
+                        <div class="flex items-center w-[71px] h-[50px] shrink-0 overflow-hidden">
+                            <img src="assets/images/logos/dbs.svg" class="w-full h-full object-contain" alt="bank logo">
+                        </div>
+                        <div>
+                            <p class="font-semibold">DBS</p>
+                            <p class="text-sm text-tedja-secondary mt-0.5">Interest 2%</p>
+                        </div>
+                    </div>
+                    <a href="/signup" class="rounded-full py-[6px] px-3 bg-tedja-green font-semibold text-sm opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        Calculate
+                    </a>
+                </div>
+                <hr class="border-x-tedja-border">
+                <div class="flex items-center justify-center gap-[6px]">
+                    <img src="assets/images/icons/security-safe-blue-fill.svg" class="size-6 flex shrink-0" alt="icon">
+                    <p class="font-semibold">All your privacy data secured</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal -->
+        <div id="Gallery-Modal" class="fixed inset-0 items-center justify-center bg-tedja-black/50 flex z-30 hidden">
+            <div id="Modal-Content" class="rounded-[50px] flex flex-col gap-5 py-[40px]">
+                <div class="flex max-w-[900px] max-h-[600px] overflow-hidden">
+                    <img src="assets/images/thumbnails/thumbnails-6.png" class="object-contain" alt="thumbnail">
+                </div>
+                <button id="closeModal" class="px-5 mx-auto py-[14px] !w-fit bg-tedja-red rounded-full font-semibold text-white">
+                    Close
+                </button>
+            </div>
+        </div>
+
+        <script src="js/gallery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    </body>
+</html>
