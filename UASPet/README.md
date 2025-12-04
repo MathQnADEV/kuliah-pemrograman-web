@@ -4,6 +4,6 @@
 
 Project ini dibuat dengan judul "Pet Hotel & Adopt". User bisa mengajukan nitip hewan melalui pet hotel, untuk adposi kita masih via whatsapp.
 
-- 240210500049 [Darmawansyah murfa](https://laravel.com/docs/routing).
-- 240210500030 [Shaquille Rashaun Sahl Tamrin](https://laravel.com/docs/container).
-- 240210500032 [Muhammad Riyadhy Al-Haadiy](https://laravel.com/docs/session).
+- 240210500049 [Darmawansyah murfa](https://github.com/EsKopikkk).
+- 240210500030 [Shaquille Rashaun Sahl Tamrin](https://github.com/Darmawan-HTML).
+- 240210500032 [Muhammad Riyadhy Al-Haadiy](https://github.com/MathQnADEV).
