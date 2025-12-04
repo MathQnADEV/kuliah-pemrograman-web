@@ -21,6 +21,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'avatar',
+        'phone',
+        'date_of_birth',
+        'address',
+        'email_verified_at',
+        'is_admin',
+        'role',
     ];
 
     /**
@@ -43,6 +51,13 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'date_of_birth' => 'date',
+            'is_admin' => 'boolean',
         ];
+    }
+
+    public function petHotelBookings()
+    {
+        return $this->hasMany(PetHotelBooking::class);
     }
 }
