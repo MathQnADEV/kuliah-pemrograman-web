@@ -4,7 +4,7 @@
 @section('title', 'Buat Reservasi Pet Hotel')
 
 @section('styles')
-    {{-- <style>
+    <style>
         .forward-chain-box {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -173,7 +173,7 @@
             padding-bottom: 5px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.2);
         }
-    </style> --}}
+    </style>
     <style>
         .room-option.selected {
             border: 3px solid #8b5fbf !important;
@@ -191,11 +191,11 @@
         </div>
 
         {{-- fallback error validate --}}
-        @if($errors->any())
+        @if ($errors->any())
             <div class="alert alert-danger mb-6">
                 <i class="fas fa-exclamation-triangle mr-2"></i>
                 <ul class="list-disc list-inside">
-                    @foreach($errors->all() as $error)
+                    @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
@@ -203,7 +203,7 @@
         @endif
 
         <!-- Sistem Pakar Forward Chaining -->
-        <div class="forward-chain-box mb-8 hidden">
+        <div class="forward-chain-box mb-8">
             <h3 class="text-xl font-semibold mb-4">
                 <i class="fas fa-robot mr-2"></i> Sistem Pakar Forward Chaining
             </h3>
@@ -236,29 +236,9 @@
 
                 <!-- Iterasi 2 -->
                 <div class="iteration mb-4">
-                    <h5 class="font-bold mb-2">Iterasi 2: Kategori Berat dan Sifat</h5>
+                    <h5 class="font-bold mb-2">Iterasi 2: Rekomendasi Ruangan</h5>
                     <div id="iteration2Rules"></div>
                     <div id="iteration2Facts" class="new-fact hidden mt-3">
-                        <strong class="text-white">Fakta Baru:</strong>
-                        <div class="fact-tags mt-2"></div>
-                    </div>
-                </div>
-
-                <!-- Iterasi 3 -->
-                <div class="iteration mb-4">
-                    <h5 class="font-bold mb-2">Iterasi 3: Kebutuhan Ruangan</h5>
-                    <div id="iteration3Rules"></div>
-                    <div id="iteration3Facts" class="new-fact hidden mt-3">
-                        <strong class="text-white">Fakta Baru:</strong>
-                        <div class="fact-tags mt-2"></div>
-                    </div>
-                </div>
-
-                <!-- Iterasi 4 -->
-                <div class="iteration mb-4">
-                    <h5 class="font-bold mb-2">Iterasi 4: Rekomendasi Akhir</h5>
-                    <div id="iteration4Rules"></div>
-                    <div id="iteration4Facts" class="new-fact hidden mt-3">
                         <strong class="text-white">Fakta Baru:</strong>
                         <div class="fact-tags mt-2"></div>
                     </div>
@@ -360,17 +340,16 @@
                                     <label class="label mb-2">
                                         <span class="label-text font-semibold">4. Berat Peliharaan (kg) *</span>
                                     </label>
-                                    <input type="number" name="pet_weight" id="petWeight" step="0.1"
-                                        min="0.1" class="input input-bordered w-full" required
-                                        oninput="runForwardChaining()">
+                                    <input type="number" name="pet_weight" id="petWeight" step="0.1" min="0.1"
+                                        class="input input-bordered w-full" required oninput="runForwardChaining()">
                                 </div>
 
                                 <div class="form-control">
                                     <label class="label mb-2">
                                         <span class="label-text font-semibold">5. Sifat Peliharaan *</span>
                                     </label>
-                                    <select name="temprament" id="petTemperament"
-                                        class="select select-bordered w-full" required onchange="runForwardChaining()">
+                                    <select name="temprament" id="petTemperament" class="select select-bordered w-full"
+                                        required onchange="runForwardChaining()">
                                         <option value="">Pilih sifat</option>
                                         <option value="tenang">Tenang dan pendiam</option>
                                         <option value="aktif">Aktif dan energik</option>
@@ -591,7 +570,7 @@
                 this.initializeRules();
             }
 
-            // Inisialisasi aturan-aturan (Rule Base) - LENGKAP
+            // Inisialisasi aturan-aturan (Rule Base)
             initializeRules() {
                 // Bersihkan rules sebelumnya
                 this.rules = [];
@@ -686,364 +665,321 @@
                     });
                 });
 
-                // ==================== ITERASI 2: Aturan Berdasarkan Berat & Sifat ====================
-                // Aturan untuk hewan dengan berat ringan
+                // ==================== ITERASI 2 ====================
+
+                // ============ RULES UNTUK KUCING (R1-R10 dalam spesifikasi) ============
+                // R1: IF jenis_kucing AND berat_ringan AND sifat_tenang THEN standard
                 this.rules.push({
                     iteration: 2,
                     id: 'R12',
-                    condition: (wm) => wm.has('berat_ringan') && wm.has('sifat_tenang'),
-                    conclusion: 'kategori_ringan_tenang',
-                    description: 'IF (berat_ringan AND sifat_tenang) THEN kategori_ringan_tenang'
+                    condition: (wm) => wm.has('jenis_kucing') && wm.has('berat_ringan') && wm.has(
+                        'sifat_tenang'),
+                    conclusion: 'standard',
+                    description: 'IF (jenis_kucing AND berat_ringan AND sifat_tenang) THEN Room_Type = Standard',
+                    reason: 'Kebutuhan dasar minimal.'
                 });
+
+                // R2: IF jenis_kucing AND berat_ringan AND sifat_aktif THEN standard
                 this.rules.push({
                     iteration: 2,
                     id: 'R13',
-                    condition: (wm) => wm.has('berat_ringan') && wm.has('sifat_pemalu'),
-                    conclusion: 'kategori_ringan_pemalu',
-                    description: 'IF (berat_ringan AND sifat_pemalu) THEN kategori_ringan_pemalu'
+                    condition: (wm) => wm.has('jenis_kucing') && wm.has('berat_ringan') && wm.has(
+                        'sifat_aktif'),
+                    conclusion: 'standard',
+                    description: 'IF (jenis_kucing AND berat_ringan AND sifat_aktif) THEN Room_Type = Standard',
+                    reason: 'Masih cukup di standar.'
                 });
+
+                // R3: IF jenis_kucing AND berat_ringan AND sifat_sangat_aktif THEN premium
                 this.rules.push({
                     iteration: 2,
                     id: 'R14',
-                    condition: (wm) => wm.has('berat_ringan') && wm.has('sifat_aktif'),
-                    conclusion: 'kategori_ringan_aktif',
-                    description: 'IF (berat_ringan AND sifat_aktif) THEN kategori_ringan_aktif'
+                    condition: (wm) => wm.has('jenis_kucing') && wm.has('berat_ringan') && wm.has(
+                        'sifat_sangat_aktif'),
+                    conclusion: 'premium',
+                    description: 'IF (jenis_kucing AND berat_ringan AND sifat_sangat_aktif) THEN Room_Type = Premium',
+                    reason: 'Butuh space lebih untuk lari.'
                 });
 
-                // Aturan untuk hewan dengan berat sedang
+                // R4: IF jenis_kucing AND berat_ringan AND sifat_pemalu THEN premium
                 this.rules.push({
                     iteration: 2,
                     id: 'R15',
-                    condition: (wm) => wm.has('berat_sedang') && wm.has('sifat_tenang'),
-                    conclusion: 'kategori_sedang_tenang',
-                    description: 'IF (berat_sedang AND sifat_tenang) THEN kategori_sedang_tenang'
+                    condition: (wm) => wm.has('jenis_kucing') && wm.has('berat_ringan') && wm.has(
+                        'sifat_pemalu'),
+                    conclusion: 'premium',
+                    description: 'IF (jenis_kucing AND berat_ringan AND sifat_pemalu) THEN Room_Type = Premium',
+                    reason: 'Butuh area tertutup/privasi.'
                 });
+
+                // R5: IF jenis_kucing AND berat_sedang AND sifat_tenang THEN standard
                 this.rules.push({
                     iteration: 2,
                     id: 'R16',
-                    condition: (wm) => wm.has('berat_sedang') && wm.has('sifat_pemalu'),
-                    conclusion: 'kategori_sedang_pemalu',
-                    description: 'IF (berat_sedang AND sifat_pemalu) THEN kategori_sedang_pemalu'
+                    condition: (wm) => wm.has('jenis_kucing') && wm.has('berat_sedang') && wm.has(
+                        'sifat_tenang'),
+                    conclusion: 'standard',
+                    description: 'IF (jenis_kucing AND berat_sedang AND sifat_tenang) THEN Room_Type = Standard',
+                    reason: 'Ukuran standar masih memadai.'
                 });
+
+                // R6: IF jenis_kucing AND berat_sedang AND sifat_aktif THEN premium
                 this.rules.push({
                     iteration: 2,
                     id: 'R17',
-                    condition: (wm) => wm.has('berat_sedang') && wm.has('sifat_aktif'),
-                    conclusion: 'kategori_sedang_aktif',
-                    description: 'IF (berat_sedang AND sifat_aktif) THEN kategori_sedang_aktif'
+                    condition: (wm) => wm.has('jenis_kucing') && wm.has('berat_sedang') && wm.has(
+                        'sifat_aktif'),
+                    conclusion: 'premium',
+                    description: 'IF (jenis_kucing AND berat_sedang AND sifat_aktif) THEN Room_Type = Premium',
+                    reason: 'Butuh rak panjat (vertical space).'
                 });
+
+                // R7: IF jenis_kucing AND berat_sedang AND sifat_sangat_aktif THEN luxury
                 this.rules.push({
                     iteration: 2,
                     id: 'R18',
-                    condition: (wm) => wm.has('berat_sedang') && wm.has('sifat_sangat_aktif'),
-                    conclusion: 'kategori_sedang_sangat_aktif',
-                    description: 'IF (berat_sedang AND sifat_sangat_aktif) THEN kategori_sedang_sangat_aktif'
+                    condition: (wm) => wm.has('jenis_kucing') && wm.has('berat_sedang') && wm.has(
+                        'sifat_sangat_aktif'),
+                    conclusion: 'luxury',
+                    description: 'IF (jenis_kucing AND berat_sedang AND sifat_sangat_aktif) THEN Room_Type = Luxury',
+                    reason: 'Butuh area bermain luas.'
                 });
+
+                // R8: IF jenis_kucing AND berat_berat AND sifat_tenang THEN premium
                 this.rules.push({
                     iteration: 2,
                     id: 'R19',
-                    condition: (wm) => wm.has('berat_sedang') && wm.has('sifat_agresif'),
-                    conclusion: 'kategori_sedang_agresif',
-                    description: 'IF (berat_sedang AND sifat_agresif) THEN kategori_sedang_agresif'
+                    condition: (wm) => wm.has('jenis_kucing') && wm.has('berat_berat') && wm.has(
+                        'sifat_tenang'),
+                    conclusion: 'premium',
+                    description: 'IF (jenis_kucing AND berat_berat AND sifat_tenang) THEN Room_Type = Premium',
+                    reason: 'Badan besar butuh space gerak.'
                 });
 
-                // Aturan untuk hewan dengan berat berat
+                // R9: IF jenis_kucing AND berat_berat AND (sifat_aktif OR sifat_sangat_aktif) THEN luxury
                 this.rules.push({
                     iteration: 2,
                     id: 'R20',
-                    condition: (wm) => wm.has('berat_berat') && wm.has('sifat_tenang'),
-                    conclusion: 'kategori_berat_tenang',
-                    description: 'IF (berat_berat AND sifat_tenang) THEN kategori_berat_tenang'
+                    condition: (wm) => wm.has('jenis_kucing') && wm.has('berat_berat') &&
+                        (wm.has('sifat_aktif') || wm.has('sifat_sangat_aktif')),
+                    conclusion: 'luxury',
+                    description: 'IF (jenis_kucing AND berat_berat AND (sifat_aktif OR sifat_sangat_aktif)) THEN Room_Type = Luxury',
+                    reason: 'Badan besar + aktif = Ruang Maksimal.'
                 });
+
+                // R10: IF jenis_kucing AND sifat_agresif THEN luxury
                 this.rules.push({
                     iteration: 2,
                     id: 'R21',
-                    condition: (wm) => wm.has('berat_berat') && wm.has('sifat_pemalu'),
-                    conclusion: 'kategori_berat_pemalu',
-                    description: 'IF (berat_berat AND sifat_pemalu) THEN kategori_berat_pemalu'
+                    condition: (wm) => wm.has('jenis_kucing') && wm.has('sifat_agresif'),
+                    conclusion: 'luxury',
+                    description: 'IF (jenis_kucing AND sifat_agresif) THEN Room_Type = Luxury',
+                    reason: 'Butuh isolasi & pengamanan ekstra.'
                 });
+
+                // ============ RULES UNTUK ANJING (R11-R21 dalam spesifikasi) ============
+                // R11: IF jenis_anjing AND berat_ringan AND sifat_tenang THEN standard
                 this.rules.push({
                     iteration: 2,
                     id: 'R22',
-                    condition: (wm) => wm.has('berat_berat') && wm.has('sifat_aktif'),
-                    conclusion: 'kategori_berat_aktif',
-                    description: 'IF (berat_berat AND sifat_aktif) THEN kategori_berat_aktif'
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('berat_ringan') && wm.has(
+                        'sifat_tenang'),
+                    conclusion: 'standard',
+                    description: 'IF (jenis_anjing AND berat_ringan AND sifat_tenang) THEN Room_Type = Standard',
+                    reason: 'Anjing ras kecil (Chihuahua dll).'
                 });
+
+                // R12: IF jenis_anjing AND berat_ringan AND sifat_aktif THEN standard
                 this.rules.push({
                     iteration: 2,
                     id: 'R23',
-                    condition: (wm) => wm.has('berat_berat') && wm.has('sifat_sangat_aktif'),
-                    conclusion: 'kategori_berat_sangat_aktif',
-                    description: 'IF (berat_berat AND sifat_sangat_aktif) THEN kategori_berat_sangat_aktif'
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('berat_ringan') && wm.has(
+                        'sifat_aktif'),
+                    conclusion: 'standard',
+                    description: 'IF (jenis_anjing AND berat_ringan AND sifat_aktif) THEN Room_Type = Standard',
+                    reason: 'Masih aman di standar.'
                 });
+
+                // R13: IF jenis_anjing AND berat_ringan AND sifat_sangat_aktif THEN premium
                 this.rules.push({
                     iteration: 2,
                     id: 'R24',
-                    condition: (wm) => wm.has('berat_berat') && wm.has('sifat_agresif'),
-                    conclusion: 'kategori_berat_agresif',
-                    description: 'IF (berat_berat AND sifat_agresif) THEN kategori_berat_agresif'
-                });
-
-                // ==================== ITERASI 3: Aturan untuk Kebutuhan Ruangan ====================
-                // Aturan untuk ruangan kecil (STANDARD)
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R25',
-                    condition: (wm) => wm.has('kategori_ringan_tenang') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_kecil',
-                    description: 'IF (kategori_ringan_tenang AND jenis_kucing) THEN butuh_ruangan_kecil'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R26',
-                    condition: (wm) => wm.has('kategori_ringan_tenang') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_kecil',
-                    description: 'IF (kategori_ringan_tenang AND jenis_kelinci) THEN butuh_ruangan_kecil'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R27',
-                    condition: (wm) => wm.has('kategori_ringan_pemalu') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_kecil',
-                    description: 'IF (kategori_ringan_pemalu AND jenis_kucing) THEN butuh_ruangan_kecil'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R28',
-                    condition: (wm) => wm.has('kategori_ringan_pemalu') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_kecil',
-                    description: 'IF (kategori_ringan_pemalu AND jenis_kelinci) THEN butuh_ruangan_kecil'
-                });
-
-                // Aturan untuk ruangan sedang (PREMIUM)
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R29',
-                    condition: (wm) => wm.has('kategori_ringan_aktif') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_sedang',
-                    description: 'IF (kategori_ringan_aktif AND jenis_kucing) THEN butuh_ruangan_sedang'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R30',
-                    condition: (wm) => wm.has('kategori_ringan_aktif') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_sedang',
-                    description: 'IF (kategori_ringan_aktif AND jenis_kelinci) THEN butuh_ruangan_sedang'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R31',
-                    condition: (wm) => wm.has('kategori_sedang_tenang') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_sedang',
-                    description: 'IF (kategori_sedang_tenang AND jenis_kucing) THEN butuh_ruangan_sedang'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R32',
-                    condition: (wm) => wm.has('kategori_sedang_tenang') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_sedang',
-                    description: 'IF (kategori_sedang_tenang AND jenis_kelinci) THEN butuh_ruangan_sedang'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R33',
-                    condition: (wm) => wm.has('kategori_sedang_pemalu') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_sedang',
-                    description: 'IF (kategori_sedang_pemalu AND jenis_kucing) THEN butuh_ruangan_sedang'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R34',
-                    condition: (wm) => wm.has('kategori_sedang_pemalu') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_sedang',
-                    description: 'IF (kategori_sedang_pemalu AND jenis_kelinci) THEN butuh_ruangan_sedang'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R35',
-                    condition: (wm) => wm.has('kategori_sedang_aktif') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_sedang',
-                    description: 'IF (kategori_sedang_aktif AND jenis_kucing) THEN butuh_ruangan_sedang'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R36',
-                    condition: (wm) => wm.has('kategori_sedang_aktif') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_sedang',
-                    description: 'IF (kategori_sedang_aktif AND jenis_kelinci) THEN butuh_ruangan_sedang'
-                });
-
-                // Aturan untuk ruangan besar (LUXURY)
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R37',
-                    condition: (wm) => wm.has('kategori_sedang_sangat_aktif') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_sedang_sangat_aktif AND jenis_kucing) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R38',
-                    condition: (wm) => wm.has('kategori_sedang_sangat_aktif') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_sedang_sangat_aktif AND jenis_kelinci) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R39',
-                    condition: (wm) => wm.has('kategori_sedang_agresif') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_sedang_agresif AND jenis_kucing) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R40',
-                    condition: (wm) => wm.has('kategori_sedang_agresif') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_sedang_agresif AND jenis_kelinci) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R41',
-                    condition: (wm) => wm.has('kategori_berat_tenang') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_berat_tenang AND jenis_kucing) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R42',
-                    condition: (wm) => wm.has('kategori_berat_tenang') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_berat_tenang AND jenis_kelinci) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R43',
-                    condition: (wm) => wm.has('kategori_berat_pemalu') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_berat_pemalu AND jenis_kucing) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R44',
-                    condition: (wm) => wm.has('kategori_berat_pemalu') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_berat_pemalu AND jenis_kelinci) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R45',
-                    condition: (wm) => wm.has('kategori_berat_aktif') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_berat_aktif AND jenis_kucing) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R46',
-                    condition: (wm) => wm.has('kategori_berat_aktif') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_berat_aktif AND jenis_kelinci) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R47',
-                    condition: (wm) => wm.has('kategori_berat_sangat_aktif') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_berat_sangat_aktif AND jenis_kucing) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R48',
-                    condition: (wm) => wm.has('kategori_berat_sangat_aktif') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_berat_sangat_aktif AND jenis_kelinci) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R49',
-                    condition: (wm) => wm.has('kategori_berat_agresif') && wm.has('jenis_kucing'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_berat_agresif AND jenis_kucing) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R50',
-                    condition: (wm) => wm.has('kategori_berat_agresif') && wm.has('jenis_kelinci'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (kategori_berat_agresif AND jenis_kelinci) THEN butuh_ruangan_besar'
-                });
-
-                // Aturan khusus untuk ANJING (semua anjing butuh ruangan lebih besar)
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R51',
-                    condition: (wm) => wm.has('jenis_anjing') && (wm.has('kategori_ringan_tenang') || wm.has(
-                        'kategori_ringan_pemalu')),
-                    conclusion: 'butuh_ruangan_sedang',
-                    description: 'IF (jenis_anjing AND (kategori_ringan_tenang OR kategori_ringan_pemalu)) THEN butuh_ruangan_sedang'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R52',
-                    condition: (wm) => wm.has('jenis_anjing') && wm.has('kategori_ringan_aktif'),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (jenis_anjing AND kategori_ringan_aktif) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R53',
-                    condition: (wm) => wm.has('jenis_anjing') && (wm.has('kategori_sedang_tenang') || wm.has(
-                        'kategori_sedang_pemalu')),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (jenis_anjing AND (kategori_sedang_tenang OR kategori_sedang_pemalu)) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R54',
-                    condition: (wm) => wm.has('jenis_anjing') && (wm.has('kategori_sedang_aktif') || wm.has(
-                        'kategori_sedang_sangat_aktif') || wm.has('kategori_sedang_agresif')),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (jenis_anjing AND (kategori_sedang_aktif OR kategori_sedang_sangat_aktif OR kategori_sedang_agresif)) THEN butuh_ruangan_besar'
-                });
-                this.rules.push({
-                    iteration: 3,
-                    id: 'R55',
-                    condition: (wm) => wm.has('jenis_anjing') && (wm.has('kategori_berat_tenang') || wm.has(
-                        'kategori_berat_pemalu') || wm.has('kategori_berat_aktif') || wm.has(
-                        'kategori_berat_sangat_aktif') || wm.has('kategori_berat_agresif')),
-                    conclusion: 'butuh_ruangan_besar',
-                    description: 'IF (jenis_anjing AND (kategori_berat_tenang OR kategori_berat_pemalu OR kategori_berat_aktif OR kategori_berat_sangat_aktif OR kategori_berat_agresif)) THEN butuh_ruangan_besar'
-                });
-
-                // ==================== ITERASI 4: Aturan untuk Rekomendasi Akhir ====================
-                this.rules.push({
-                    iteration: 4,
-                    id: 'R56',
-                    condition: (wm) => wm.has('butuh_ruangan_kecil'),
-                    conclusion: 'standard',
-                    description: 'IF (butuh_ruangan_kecil) THEN rekomendasi = STANDARD'
-                });
-                this.rules.push({
-                    iteration: 4,
-                    id: 'R57',
-                    condition: (wm) => wm.has('butuh_ruangan_sedang'),
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('berat_ringan') && wm.has(
+                        'sifat_sangat_aktif'),
                     conclusion: 'premium',
-                    description: 'IF (butuh_ruangan_sedang) THEN rekomendasi = PREMIUM'
+                    description: 'IF (jenis_anjing AND berat_ringan AND sifat_sangat_aktif) THEN Room_Type = Premium',
+                    reason: 'Butuh area main.'
                 });
+
+                // R14: IF jenis_anjing AND berat_sedang AND sifat_tenang THEN standard
                 this.rules.push({
-                    iteration: 4,
-                    id: 'R58',
-                    condition: (wm) => wm.has('butuh_ruangan_besar'),
-                    conclusion: 'luxury',
-                    description: 'IF (butuh_ruangan_besar) THEN rekomendasi = LUXURY'
-                });
-                this.rules.push({
-                    iteration: 4,
-                    id: 'R59',
-                    condition: (wm) => !wm.has('butuh_ruangan_kecil') && !wm.has('butuh_ruangan_sedang') && !wm
-                        .has('butuh_ruangan_besar'),
+                    iteration: 2,
+                    id: 'R25',
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('berat_sedang') && wm.has(
+                        'sifat_tenang'),
                     conclusion: 'standard',
-                    description: 'IF (tidak ada kebutuhan ruangan terdeteksi) THEN rekomendasi default = STANDARD'
+                    description: 'IF (jenis_anjing AND berat_sedang AND sifat_tenang) THEN Room_Type = Standard',
+                    reason: 'Anjing ukuran sedang pasif.'
+                });
+
+                // R15: IF jenis_anjing AND berat_sedang AND sifat_aktif THEN premium
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R26',
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('berat_sedang') && wm.has(
+                        'sifat_aktif'),
+                    conclusion: 'premium',
+                    description: 'IF (jenis_anjing AND berat_sedang AND sifat_aktif) THEN Room_Type = Premium',
+                    reason: 'Standar kenyamanan anjing sedang.'
+                });
+
+                // R16: IF jenis_anjing AND berat_sedang AND sifat_sangat_aktif THEN luxury
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R27',
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('berat_sedang') && wm.has(
+                        'sifat_sangat_aktif'),
+                    conclusion: 'luxury',
+                    description: 'IF (jenis_anjing AND berat_sedang AND sifat_sangat_aktif) THEN Room_Type = Luxury',
+                    reason: 'Butuh space lari indoor.'
+                });
+
+                // R17: IF jenis_anjing AND berat_sedang AND sifat_pemalu THEN premium
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R28',
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('berat_sedang') && wm.has(
+                        'sifat_pemalu'),
+                    conclusion: 'premium',
+                    description: 'IF (jenis_anjing AND berat_sedang AND sifat_pemalu) THEN Room_Type = Premium',
+                    reason: 'Butuh dinding tertutup (privasi).'
+                });
+
+                // R18: IF jenis_anjing AND berat_berat AND sifat_tenang THEN premium
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R29',
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('berat_berat') && wm.has(
+                        'sifat_tenang'),
+                    conclusion: 'premium',
+                    description: 'IF (jenis_anjing AND berat_berat AND sifat_tenang) THEN Room_Type = Premium',
+                    reason: 'Fisik besar tidak muat di standar.'
+                });
+
+                // R19: IF jenis_anjing AND berat_berat AND sifat_aktif THEN luxury
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R30',
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('berat_berat') && wm.has('sifat_aktif'),
+                    conclusion: 'luxury',
+                    description: 'IF (jenis_anjing AND berat_berat AND sifat_aktif) THEN Room_Type = Luxury',
+                    reason: 'Fisik besar + gerak = Ruang Besar.'
+                });
+
+                // R20: IF jenis_anjing AND berat_berat AND sifat_sangat_aktif THEN luxury
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R31',
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('berat_berat') && wm.has(
+                        'sifat_sangat_aktif'),
+                    conclusion: 'luxury',
+                    description: 'IF (jenis_anjing AND berat_berat AND sifat_sangat_aktif) THEN Room_Type = Luxury',
+                    reason: 'Wajib ruang terbesar.'
+                });
+
+                // R21: IF jenis_anjing AND sifat_agresif THEN luxury
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R32',
+                    condition: (wm) => wm.has('jenis_anjing') && wm.has('sifat_agresif'),
+                    conclusion: 'luxury',
+                    description: 'IF (jenis_anjing AND sifat_agresif) THEN Room_Type = Luxury',
+                    reason: 'Wajib kandang besi/isolasi (Fitur Luxury).'
+                });
+
+                // ============ RULES UNTUK KELINCI (R22-R28 dalam spesifikasi) ============
+                // R22: IF jenis_kelinci AND berat_ringan AND sifat_tenang THEN standard
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R33',
+                    condition: (wm) => wm.has('jenis_kelinci') && wm.has('berat_ringan') && wm.has(
+                        'sifat_tenang'),
+                    conclusion: 'standard',
+                    description: 'IF (jenis_kelinci AND berat_ringan AND sifat_tenang) THEN Room_Type = Standard',
+                    reason: 'Kandang dasar cukup.'
+                });
+
+                // R23: IF jenis_kelinci AND berat_ringan AND sifat_aktif THEN standard
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R34',
+                    condition: (wm) => wm.has('jenis_kelinci') && wm.has('berat_ringan') && wm.has(
+                        'sifat_aktif'),
+                    conclusion: 'standard',
+                    description: 'IF (jenis_kelinci AND berat_ringan AND sifat_aktif) THEN Room_Type = Standard',
+                    reason: 'Masih cukup.'
+                });
+
+                // R24: IF jenis_kelinci AND berat_sedang AND sifat_tenang THEN standard
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R35',
+                    condition: (wm) => wm.has('jenis_kelinci') && wm.has('berat_sedang') && wm.has(
+                        'sifat_tenang'),
+                    conclusion: 'standard',
+                    description: 'IF (jenis_kelinci AND berat_sedang AND sifat_tenang) THEN Room_Type = Standard',
+                    reason: 'Ukuran standar cukup untuk kelinci sedang yang tenang.'
+                });
+
+                // R25: IF jenis_kelinci AND berat_sedang AND sifat_aktif THEN premium
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R36',
+                    condition: (wm) => wm.has('jenis_kelinci') && wm.has('berat_sedang') && wm.has(
+                        'sifat_aktif'),
+                    conclusion: 'premium',
+                    description: 'IF (jenis_kelinci AND berat_sedang AND sifat_aktif) THEN Room_Type = Premium',
+                    reason: 'Butuh area lompat (3x panjang badan).'
+                });
+
+                // R26: IF jenis_kelinci AND berat_berat THEN premium
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R37',
+                    condition: (wm) => wm.has('jenis_kelinci') && wm.has('berat_berat'),
+                    conclusion: 'premium',
+                    description: 'IF (jenis_kelinci AND berat_berat) THEN Room_Type = Premium',
+                    reason: 'Kelinci ras raksasa (Giant) membutuhkan ruang lebih besar.'
+                });
+
+                // R27: IF jenis_kelinci AND sifat_sangat_aktif THEN premium
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R38',
+                    condition: (wm) => wm.has('jenis_kelinci') && wm.has('sifat_sangat_aktif'),
+                    conclusion: 'premium',
+                    description: 'IF (jenis_kelinci AND sifat_sangat_aktif) THEN Room_Type = Premium',
+                    reason: 'Butuh exercise area.'
+                });
+
+                // R28: IF jenis_kelinci AND sifat_pemalu THEN standard
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R39',
+                    condition: (wm) => wm.has('jenis_kelinci') && wm.has('sifat_pemalu'),
+                    conclusion: 'standard',
+                    description: 'IF (jenis_kelinci AND sifat_pemalu) THEN Room_Type = Standard',
+                    reason: 'Cukup kasih kotak sembunyi di standar.'
+                });
+
+                // Rule default jika tidak ada yang cocok
+                this.rules.push({
+                    iteration: 2,
+                    id: 'R40',
+                    condition: (wm) => true, // Selalu true sebagai fallback
+                    conclusion: 'standard',
+                    description: 'DEFAULT: IF (no specific rule) THEN Room_Type = Standard',
+                    reason: 'Rekomendasi default untuk keamanan dan kenyamanan dasar.'
                 });
             }
 
@@ -1057,7 +993,7 @@
                 this.workingMemory.add(fact);
             }
 
-            // Jalankan forward chaining dengan 4 iterasi
+            // forward chaining
             forwardChain(data) {
                 this.clearMemory();
                 const process = {
@@ -1067,19 +1003,10 @@
                     },
                     iteration2: {
                         rules: [],
-                        newFacts: []
-                    },
-                    iteration3: {
-                        rules: [],
-                        newFacts: []
-                    },
-                    iteration4: {
-                        rules: [],
-                        newFacts: []
+                        newFacts: [],
+                        conclusionReason: ''
                     }
                 };
-
-                // console.log("=== SISTEM PAKAR FORWARD CHAINING (4 ITERASI) ===");
 
                 // Iterasi 1: Konversi input ke fakta
                 // console.log("Iterasi 1: Konversi Input ke Fakta");
@@ -1095,56 +1022,39 @@
                     }
                 });
 
-                // Iterasi 2: Tentukan kategori berdasarkan berat dan sifat
-                // console.log("Iterasi 2: Kategori Berat dan Sifat");
+                // Iterasi 2: Rekomendasi akhir berdasarkan aturan baru
+                // console.log("Iterasi 2: Rekomendasi Ruangan");
+                let finalConclusion = null;
+                let finalReason = '';
+
                 this.rules.filter(r => r.iteration === 2).forEach(rule => {
                     if (rule.condition(this.workingMemory)) {
                         this.addFact(rule.conclusion);
                         process.iteration2.rules.push({
                             id: rule.id,
                             description: rule.description,
-                            fired: true
+                            fired: true,
+                            reason: rule.reason
                         });
                         process.iteration2.newFacts.push(rule.conclusion);
-                    }
-                });
 
-                // Iterasi 3: Tentukan kebutuhan ruangan berdasarkan kategori dan jenis
-                // console.log("Iterasi 3: Kebutuhan Ruangan");
-                this.rules.filter(r => r.iteration === 3).forEach(rule => {
-                    if (rule.condition(this.workingMemory)) {
-                        this.addFact(rule.conclusion);
-                        process.iteration3.rules.push({
-                            id: rule.id,
-                            description: rule.description,
-                            fired: true
-                        });
-                        process.iteration3.newFacts.push(rule.conclusion);
-                    }
-                });
-
-                // Iterasi 4: Rekomendasi akhir
-                // console.log("Iterasi 4: Rekomendasi Akhir");
-                let finalConclusion = null;
-                this.rules.filter(r => r.iteration === 4).forEach(rule => {
-                    if (rule.condition(this.workingMemory)) {
-                        this.addFact(rule.conclusion);
-                        process.iteration4.rules.push({
-                            id: rule.id,
-                            description: rule.description,
-                            fired: true
-                        });
-                        process.iteration4.newFacts.push(rule.conclusion);
-                        finalConclusion = rule.conclusion;
+                        // Simpan kesimpulan dan alasan dari rule yang terpicu
+                        if (!finalConclusion) {
+                            finalConclusion = rule.conclusion;
+                            finalReason = rule.reason;
+                            process.iteration2.conclusionReason = rule.reason;
+                        }
                     }
                 });
 
                 // console.log("Working Memory:", Array.from(this.workingMemory));
                 // console.log("Kesimpulan Akhir:", finalConclusion);
+                // console.log("Alasan:", finalReason);
 
                 return {
                     process: process,
                     finalConclusion: finalConclusion,
+                    finalReason: finalReason,
                     workingMemory: Array.from(this.workingMemory)
                 };
             }
@@ -1250,13 +1160,12 @@
             document.getElementById('forwardChainProcess').classList.add('hidden');
             document.getElementById('conclusionSection').classList.add('hidden');
 
-            // Simulasi delay untuk proses
+            // delay untuk proses
             setTimeout(() => {
                 // Jalankan forward chaining
                 const result = expertSystem.forwardChain(data);
                 currentChainResult = result;
-
-                // Sembunyikan loading
+                
                 document.getElementById('loadingProcess').classList.add('hidden');
 
                 // Tampilkan proses forward chaining
@@ -1264,8 +1173,8 @@
 
                 // Tampilkan kesimpulan
                 if (result.finalConclusion) {
-                    displayConclusion(result.finalConclusion);
-                    updateRoomRecommendation(result.finalConclusion, result.workingMemory);
+                    displayConclusion(result.finalConclusion, result.finalReason);
+                    updateRoomRecommendation(result.finalConclusion, result.workingMemory, result.finalReason);
                 }
 
                 // Tampilkan section rekomendasi
@@ -1274,17 +1183,17 @@
             }, 1000);
         }
 
-        // Update fungsi displayForwardChainProcess untuk 4 iterasi
+        // Update fungsi displayForwardChainProcess untuk 2 iterasi
         function displayForwardChainProcess(process) {
             const forwardChainDiv = document.getElementById('forwardChainProcess');
             forwardChainDiv.classList.remove('hidden');
 
             // Clear previous content
-            ['iteration1Rules', 'iteration2Rules', 'iteration3Rules', 'iteration4Rules'].forEach(id => {
+            ['iteration1Rules', 'iteration2Rules'].forEach(id => {
                 document.getElementById(id).innerHTML = '';
             });
 
-            ['iteration1Facts', 'iteration2Facts', 'iteration3Facts', 'iteration4Facts'].forEach(id => {
+            ['iteration1Facts', 'iteration2Facts'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
 
@@ -1297,21 +1206,6 @@
                     displayIteration(2, process.iteration2);
                 }
             }, process.iteration1.rules.length * 300 + 500);
-
-            // Display iteration 3 after delay
-            setTimeout(() => {
-                if (process.iteration3.rules.length > 0) {
-                    displayIteration(3, process.iteration3);
-                }
-            }, (process.iteration1.rules.length + process.iteration2.rules.length) * 300 + 1000);
-
-            // Display iteration 4 after delay
-            setTimeout(() => {
-                if (process.iteration4.rules.length > 0) {
-                    displayIteration(4, process.iteration4);
-                }
-            }, (process.iteration1.rules.length + process.iteration2.rules.length + process.iteration3.rules
-                .length) * 300 + 1500);
         }
 
         // Fungsi untuk menampilkan setiap iterasi
@@ -1319,18 +1213,31 @@
             const rulesDiv = document.getElementById(`iteration${iterationNumber}Rules`);
             const factsDiv = document.getElementById(`iteration${iterationNumber}Facts`);
 
-            if (!rulesDiv || !factsDiv) return;
+            // Clear
+            rulesDiv.innerHTML = '';
+
+            if (factsDiv.querySelector('.fact-tags')) {
+                factsDiv.querySelector('.fact-tags').innerHTML = '';
+            }
 
             // Display rules
             iterationData.rules.forEach((rule, index) => {
                 setTimeout(() => {
                     const ruleDiv = document.createElement('div');
                     ruleDiv.className = 'rule-execution';
+
+                    // Tampilkan alasan jika ada (khusus untuk iterasi 2)
+                    let reasonHTML = '';
+                    if (iterationNumber === 2 && rule.reason) {
+                        reasonHTML = `<div class="text-sm text-white mt-1"><em>${rule.reason}</em></div>`;
+                    }
+
                     ruleDiv.innerHTML = `
                 <div class="flex items-start">
                     <span class="step-badge">${rule.id}</span>
                     <div class="flex-1">
                         <div class="font-semibold">${rule.description}</div>
+                        ${reasonHTML}
                     </div>
                     <div class="ml-2">
                         <i class="fas fa-check-circle text-green-400"></i>
@@ -1362,7 +1269,14 @@
                         setTimeout(() => {
                             const factTag = document.createElement('span');
                             factTag.className = 'fact-tag';
-                            factTag.textContent = fact;
+
+                            // Tampilkan lebih user-friendly untuk ruangan
+                            let displayFact = fact;
+                            if (fact === 'standard') displayFact = 'Standard Room';
+                            else if (fact === 'premium') displayFact = 'Premium Room';
+                            else if (fact === 'luxury') displayFact = 'Luxury Room';
+
+                            factTag.textContent = displayFact;
 
                             if (factsDiv.querySelector('.fact-tags')) {
                                 factsDiv.querySelector('.fact-tags').appendChild(factTag);
@@ -1425,32 +1339,32 @@
             }, iterationData.rules.length * 500);
         }
 
-        function displayConclusion(conclusion) {
+        function displayConclusion(conclusion, reason) {
             const conclusionSection = document.getElementById('conclusionSection');
             const finalConclusionDiv = document.getElementById('finalConclusion');
+            const conclusionReasonDiv = document.getElementById('conclusionReason');
 
             conclusionSection.classList.remove('hidden');
 
             let conclusionText = '';
-            let conclusionReason = '';
+            let conclusionReason = reason || '';
 
             if (conclusion === 'standard') {
                 conclusionText = 'REKOMENDASI: <span class="font-bold text-white">RUANGAN STANDARD</span>';
-                conclusionReason = 'Hewan dengan berat ringan dan sifat tenang/pemalu cocok dengan ruangan standard';
+                conclusionReason = conclusionReason || 'Hewan dengan karakteristik dasar cocok dengan ruangan standard';
             } else if (conclusion === 'premium') {
                 conclusionText = 'REKOMENDASI: <span class="font-bold text-white">RUANGAN PREMIUM</span>';
-                conclusionReason = 'Hewan dengan berat sedang, jenis anjing, atau sifat aktif membutuhkan ruangan premium';
+                conclusionReason = conclusionReason || 'Hewan membutuhkan ruang dan fasilitas tambahan';
             } else if (conclusion === 'luxury') {
                 conclusionText = 'REKOMENDASI: <span class="font-bold text-white">RUANGAN LUXURY</span>';
-                conclusionReason =
-                    'Hewan dengan berat berat, sifat sangat aktif, atau sifat agresif membutuhkan ruangan luxury';
+                conclusionReason = conclusionReason || 'Hewan membutuhkan ruang maksimal dan fasilitas khusus';
             }
 
             finalConclusionDiv.innerHTML = conclusionText;
-            document.getElementById('conclusionReason').textContent = conclusionReason;
+            conclusionReasonDiv.textContent = conclusionReason;
         }
 
-        function updateRoomRecommendation(roomType, workingMemory) {
+        function updateRoomRecommendation(roomType, workingMemory, reason) {
             // Update radio button
             const radioInput = document.querySelector(`input[name="room_type"][value="${roomType}"]`);
             if (radioInput) {
@@ -1468,9 +1382,9 @@
                 }
             });
 
-            // Update reason text
-            const reason = expertSystem.generateReason(roomType, workingMemory);
-            document.getElementById('reasonText').textContent = reason;
+            // Update reason text - gunakan alasan dari sistem pakar
+            const reasonText = reason || expertSystem.generateReason(roomType, workingMemory);
+            document.getElementById('reasonText').textContent = reasonText;
 
             // Calculate price
             calculateTotal();
@@ -1553,11 +1467,11 @@
                 <span class="font-semibold">Rp ${(pricePerDay * totalDays).toLocaleString()}</span>
             </div>
             ${discount > 0 ? `
-                        <div class="flex justify-between text-green-600">
-                            <span>Diskon Makanan (30%)</span>
-                            <span class="font-semibold">- Rp ${discount.toLocaleString()}</span>
-                        </div>
-                        ` : ''}
+                                                                    <div class="flex justify-between text-green-600">
+                                                                        <span>Diskon Makanan (30%)</span>
+                                                                        <span class="font-semibold">- Rp ${discount.toLocaleString()}</span>
+                                                                    </div>
+                                                                    ` : ''}
             <div class="divider my-2"></div>
             <div class="flex justify-between text-lg font-bold">
                 <span>Total Harga</span>
