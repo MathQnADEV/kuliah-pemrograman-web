@@ -27,10 +27,22 @@ class DashboardAdminController extends Controller
             'available_adoptions' => AdoptionPet::where('status', 'available')->count(),
         ];
 
-        $stats['pending_adoptions_percentage'] = $stats['pending_adoptions'] / $stats['total_adoptions'] * 100;
-        $stats['reserved_adoptions_percentage'] = $stats['reserved_adoptions'] / $stats['total_adoptions'] * 100;
-        $stats['adopted_adoptions_percentage'] = $stats['adopted_adoptions'] / $stats['total_adoptions'] * 100;
-        $stats['available_adoptions_percentage'] = $stats['available_adoptions'] / $stats['total_adoptions'] * 100;
+        // Adoption Stats
+        $stats['total_adoptions'] > 0 ?
+            $stats['pending_adoptions_percentage'] = $stats['pending_adoptions'] / $stats['total_adoptions'] * 100 :
+            $stats['pending_adoptions_percentage'] = 0;
+
+        $stats['total_adoptions'] > 0 ?
+            $stats['reserved_adoptions_percentage'] = $stats['reserved_adoptions'] / $stats['total_adoptions'] * 100 :
+            $stats['reserved_adoptions_percentage'] = 0;
+
+        $stats['total_adoptions'] > 0 ?
+            $stats['adopted_adoptions_percentage'] = $stats['adopted_adoptions'] / $stats['total_adoptions'] * 100 :
+            $stats['adopted_adoptions_percentage'] = 0;
+
+        $stats['total_adoptions'] > 0 ?
+            $stats['available_adoptions_percentage'] = $stats['available_adoptions'] / $stats['total_adoptions'] * 100 :
+            $stats['available_adoptions_percentage'] = 0;
 
         $recentBookings = PetHotelBooking::with('user')
             ->latest()
